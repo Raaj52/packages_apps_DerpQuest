@@ -17,36 +17,43 @@
 package com.derpquest.settings.fragments.actions;
 
 import android.content.Context;
+import android.content.ContentResolver;
 import android.os.Bundle;
 import android.provider.SearchIndexableResource;
 import android.provider.Settings;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceChangeListener;
 
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
+
+import com.android.internal.logging.nano.MetricsProto;
+import com.android.settings.gestures.GestureSettings;
 import com.android.settings.R;
 import com.android.settings.search.BaseSearchIndexProvider;
 import com.android.settingslib.search.Indexable;
 import com.android.settingslib.search.SearchIndexable;
-import com.android.settings.SettingsPreferenceFragment;
 import com.android.settings.Utils;
-
-import com.android.internal.logging.nano.MetricsProto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @SearchIndexable
-public class VolumeRocker extends SettingsPreferenceFragment implements
-        Preference.OnPreferenceChangeListener, Indexable {
+public class VolumeRocker extends GestureSettings implements
+        Indexable {
+
+    private static final String TAG = "VolumeRocker";
+
+    private static final String KEY_VOLUME_BUTTON_MUSIC_CONTROL = "gesture_volume_skiptrack_summary";
+
+    private ContentResolver mContentResolver;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.volume_rocker);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        super.onCreatePreferences(savedInstanceState, rootKey);
     }
 
-    public boolean onPreferenceChange(Preference preference, Object newValue) {
-        return false;
+    @Override
+    public boolean onPreferenceTreeClick(Preference preference) {
+        return super.onPreferenceTreeClick(preference);
     }
 
     @Override
@@ -55,21 +62,25 @@ public class VolumeRocker extends SettingsPreferenceFragment implements
     }
 
     public static final SearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
-        new BaseSearchIndexProvider() {
-            @Override
-            public List<SearchIndexableResource> getXmlResourcesToIndex(Context context,
-                    boolean enabled) {
-                final ArrayList<SearchIndexableResource> result = new ArrayList<>();
-                final SearchIndexableResource sir = new SearchIndexableResource(context);
-                sir.xmlResId = R.xml.volume_rocker;
-                result.add(sir);
-                return result;
-            }
+            new BaseSearchIndexProvider() {
+                @Override
+                public List<SearchIndexableResource> getXmlResourcesToIndex(Context context,
+                                                                            boolean enabled) {
+                    ArrayList<SearchIndexableResource> result =
+                            new ArrayList<SearchIndexableResource>();
 
-            @Override
-            public List<String> getNonIndexableKeys(Context context) {
-                final List<String> keys = super.getNonIndexableKeys(context);
-                return keys;
-            }
-    };
+                    SearchIndexableResource sir = new SearchIndexableResource(context);
+                    sir.xmlResId = R.xml.volume_rocker;
+                    result.add(sir);
+                    return result;
+                }
+
+                @Override
+                public List<String> getNonIndexableKeys(Context context) {
+                    List<String> keys = super.getNonIndexableKeys(context);
+                    // Duplicates in summary and details pages.
+                    keys.add(KEY_VOLUME_BUTTON_MUSIC_CONTROL);
+                    return keys;
+                }
+            };
 }
