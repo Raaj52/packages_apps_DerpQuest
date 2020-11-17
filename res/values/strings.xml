@@ -108,6 +108,7 @@
     <string name="volte_icon_miui">MIUI 11 Icon</string>
     <string name="volte_icon_emui">EMUI Icon</string>
     <string name="volte_icon_volit">VoLIT Icon</string>
+    <string name="volte_icon_oos10">OOS 10 Icon</string>
 
     <!-- VoWiFi icon -->
     <string name="vowifi_icon_title">VoWiFi icon</string>
