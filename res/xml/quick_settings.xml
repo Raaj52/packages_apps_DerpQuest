@@ -37,4 +37,10 @@
         android:dependency="qs_footer_text_show"
         android:defaultValue="#StayDerped" />
 
+    <Preference
+        android:key="qs_column_rows_settings"
+        android:title="@string/qs_column_rows_settings_title"
+		android:summary="@string/qs_column_rows_settings_summary"
+        android:fragment="com.android.settings.display.QsColumnsRowsFragment"/>
+
 </PreferenceScreen>

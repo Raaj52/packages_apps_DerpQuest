@@ -54,5 +54,12 @@
         android:entryValues="@array/vowifi_icon_style_values"
         android:summary="%s"
         android:defaultValue="0"/>
+		
+    <com.android.settings.widget.CardPreference
+            android:key="status_bar_icons"
+            android:title="@string/status_bar_system_icons_title"
+            android:summary="@string/status_bar_system_icons_summary">
+            <intent android:action="com.android.settings.action.STATUS_BAR_TUNER" />
+    </com.android.settings.widget.CardPreference>
 
 </PreferenceScreen>
